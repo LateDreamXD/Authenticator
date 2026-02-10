@@ -69,7 +69,7 @@ export default {
 				}
 			});
 			watch(() => app.config.globalProperties.$route.name, name => {
-				document.title = `${t(`title.${name?.toString()}`)} | ${t('title.app')}`;
+				document.title = `${t(`title.${name?.toString()}`, [t(`title.${app.config.globalProperties.$route.params.type?.toString()}`)])} | ${t('title.app')}`;
 				document.head.querySelector('meta[name="description"]')?.setAttribute(
 					'content', t(`title.${name?.toString()}.description`)
 				);

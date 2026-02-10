@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted, onBeforeUnmount, watch } from 'vue';
-import { useClipboard, useColorMode } from '@vueuse/core';
-import { toast, Toaster } from 'vue-sonner';
+import { useClipboard } from '@vueuse/core';
+import { toast } from 'vue-sonner';
 import { use2faStore } from '@/stores/2fa';
 import { useI18nStore } from '@/stores/i18n';
 import { Button } from '@/components/ui/button';
@@ -40,7 +40,18 @@ import {
 } from '@/components/ui/dialog';
 import { Progress } from '@/components/ui/progress';
 import { useSidebar } from '@/components/ui/sidebar';
-import { Edit, QrCode, UserRoundPlus, MessageSquareWarning, MoreHorizontal } from 'lucide-vue-next';
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from '@/components/ui/popover';
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from '@/components/ui/tooltip'
+import { QrCode, SquareX, UserRoundPlus, MoreHorizontal } from 'lucide-vue-next';
 import QRCode from 'qrcode.vue';
 
 const twoFaStore = use2faStore();
@@ -61,14 +72,15 @@ const otps = reactive<Record<string, string>>(Object.fromEntries(
 async function copy(content?: string) {
 	const clipboard = useClipboard();
 	if (!clipboard.isSupported || !content) {
-		toast(t('notification.unsupported'), { duration: 2000, icon: MessageSquareWarning });
+		toast.info(t('notification.unsupported'));
 		return;
 	}
 	await clipboard.copy(content).then(
-		() => toast(t('notification.copied'), { duration: 2000 }),
-		(err) => toast(t('notification.copy_failed'), {
-			duration: 2000, description: err.message, icon: MessageSquareWarning
-		})
+		() => toast.info(t('notification.copied')),
+		(err) => {
+			toast.error(t('notification.copy_failed'), { description: err.message });
+			logger.error(err);
+		}
 	);
 }
 
@@ -149,9 +161,44 @@ onBeforeUnmount(() => {
 								</div>
 							</DialogContent>
 						</Dialog>
-						<Button variant="ghost" size="icon">
-							<MoreHorizontal />
-						</Button>
+						<Popover>
+							<PopoverTrigger>
+								<Button variant="ghost" size="icon">
+									<MoreHorizontal />
+								</Button>
+							</PopoverTrigger>
+							<PopoverContent class="w-fit">
+								<Dialog>
+									<DialogTrigger>
+										<TooltipProvider as-child>
+											<Tooltip>
+												<TooltipTrigger as-child>
+													<Button variant="destructive" size="icon">
+														<SquareX />
+													</Button>
+												</TooltipTrigger>
+												<TooltipContent>
+													{{ $t('otp.remove') }}
+												</TooltipContent>
+											</Tooltip>
+										</TooltipProvider>
+									</DialogTrigger>
+									<DialogContent>
+										<DialogHeader>
+											<DialogTitle>{{ $t('otp.remove.title') }}</DialogTitle>
+											<DialogDescription>{{ $t('otp.remove.description', [account.label]) }}</DialogDescription>
+										</DialogHeader>
+										<DialogFooter>
+											<DialogClose as-child>
+												<Button variant="destructive" @click="twoFaStore.remove(name)">
+													{{ $t('otp.remove') }}
+												</Button>
+											</DialogClose>
+										</DialogFooter>
+									</DialogContent>
+								</Dialog>
+							</PopoverContent>
+						</Popover>
 					</CardAction>
 				</CardHeader>
 				<CardContent>

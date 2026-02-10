@@ -24,6 +24,8 @@
 
   "contextmenu.open_dev_tools": "打开开发工具",
 
+  "notification.added": "已添加！",
+  "notification.add_failed": "添加失败",
   "notification.copied": "已复制！",
   "notification.copy_failed": "复制失败",
   "notification.unsupported": "不支持的操作",
@@ -33,11 +35,13 @@
   "quote.empty": "风吹过，只带走自己的声音",
   "otp.empty.title": "没有账户",
 
-  "add_new": "添加一个新的 %0",
-  "add.by.manual_input": "手动输入信息",
-  "add.by.scan_qrcode": "扫描二维码",
-  "add.by.otp_uri": "输入 OTP URI",
+  "add.new": "添加一个新的 %0",
+  "add.2fa.by.manual_input": "手动输入信息",
+  "add.2fa.by.scan_qrcode": "扫描二维码",
+  "add.2fa.by.otp_uri": "输入 OTP URI",
   "add.by.recovery_backup": "从备份恢复",
+
+  "add.input_error_massage": "请输入正确格式的%0",
 
   "otp.info.title": "账户信息",
   "otp.issuer": "签发者",
@@ -64,6 +68,9 @@
   "otp.period": "OTP 有效期",
   "otp.period.seconds": "%0 秒",
   "otp.add": "添加",
+  "otp.remove": "删除",
+  "otp.remove.title": "删除账户",
+  "otp.remove.description": "确定要删除账户 %0 吗？这将永久删除账户，无法恢复。",
   "otp.next_refresh": "距离下一次刷新",
   "otp.remaining": "剩余 ",
 
