@@ -1,0 +1,23 @@
+{
+  "name": "LateDreamAuth",
+  "version": "1.0.0.1",
+  "icon": "icon.png",
+  "uuid": "4f475df0-0225-468e-a9b3-de68ea8be262",
+  "window": {
+    "title": "LateDream Authenticator",
+    "icon": "icon.png",
+    "devtools": true
+  },
+  "meta": {
+    "name": "LateDream Authenticator",
+    "company_name": "LateDream",
+    "copyright": "Copyright (c) 2026 LateDream"
+  },
+  "debug": {
+    "resource": "public",
+    "entry": "http://localhost:5173/"
+  },
+  "build": {
+    "resource": "dist"
+  }
+}

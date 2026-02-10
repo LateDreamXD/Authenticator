@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "Vue.volar",
+    "EditorConfig.EditorConfig",
+    "bradlc.vscode-tailwindcss",
+    "selemondev.shadcn-vue"
+  ]
+}

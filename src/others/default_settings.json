@@ -1,0 +1,10 @@
+{
+  "appearance": {
+    "theme": "system",
+    "color": "pink",
+    "background_image": "",
+    "background_image_blur": 0
+  },
+  "language": "system",
+  "portable_mode": false
+}
