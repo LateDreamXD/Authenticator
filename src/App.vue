@@ -26,6 +26,7 @@ const { version, platform, date: build_date } = window.BUILD_INFO;
 const isDev = import.meta.env.DEV;
 const isElectron = platform.includes('electron');
 const isNiva = platform.includes('niva');
+const isDemoVersion = version.includes('demo');
 const isUnstableVersion = !!version.match(/alpha|beta|dev/);
 
 const openDevTools = () => {
@@ -75,8 +76,9 @@ const openDevTools = () => {
 	</ContextMenu>
 	<div class="watermarks fixed bottom-2 right-2 text-sm text-primary/50 flex flex-col items-end">
 		<span v-if="$settings.settings.portable_mode" v-text="$t('watermark.portable_mode')" />
+		<span v-if="isDemoVersion" v-text="$t('watermark.demo_version_tip')" />
 		<span v-if="isUnstableVersion" v-text="$t('watermark.unstable_version_warning')" />
-		<span v-if="isDev || isUnstableVersion">
+		<span v-if="isDev || isUnstableVersion || isDemoVersion">
 			v{{ version }}, build at {{ build_date }} for {{ platform }}
 		</span>
 	</div>

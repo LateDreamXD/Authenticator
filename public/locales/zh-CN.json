@@ -31,14 +31,15 @@
   "tooltip.click_to_copy": "点击复制",
 
   "quote.empty": "风吹过，只带走自己的声音",
-
   "otp.empty.title": "没有账户",
+
+  "add_new": "添加一个新的 %0",
+  "add.by.manual_input": "手动输入信息",
+  "add.by.scan_qrcode": "扫描二维码",
+  "add.by.otp_uri": "输入 OTP URI",
+  "add.by.recovery_backup": "从备份恢复",
+
   "otp.info.title": "账户信息",
-  "otp.description": "添加一个新的账户",
-  "otp.add_by_manual_input": "手动输入信息",
-  "otp.add_by_scan_qrcode": "扫描二维码",
-  "otp.add_by_otp_uri": "输入 OTP URI",
-  "otp.recovery_backup": "从备份恢复",
   "otp.issuer": "签发者",
   "otp.issuer.description": "账户的签发者",
   "otp.secret": "OTP 密钥",
@@ -99,6 +100,7 @@
   "settings.portable_mode": "便携模式",
   "settings.portable_mode.description": "电子洁癖患者福音",
 
+  "watermark.demo_version_tip": "这是一个演示版本，功能有限",
   "watermark.unstable_version_warning": "当前版本为测试版，可能不稳定",
   "watermark.portable_mode": "便携模式"
 }
