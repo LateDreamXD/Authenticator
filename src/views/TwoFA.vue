@@ -2,7 +2,7 @@
 import { ref, reactive, computed, onMounted, onBeforeUnmount, watch } from 'vue';
 import { useClipboard } from '@vueuse/core';
 import { toast } from 'vue-sonner';
-import { use2faStore } from '@/stores/2fa';
+import { use2faStore, type HOTP, type TOTP } from '@/stores/2fa';
 import { useI18nStore } from '@/stores/i18n';
 import { Button } from '@/components/ui/button';
 import {
@@ -63,11 +63,7 @@ const percent = computed(() => countdown.value / 30 * 100);
 const isCritical = computed(() => countdown.value <= 5);
 let countdownTimer: number | null = null;
 
-const otps = reactive<Record<string, string>>(Object.fromEntries(
-	Object.keys(twoFaStore.accounts).map(
-		key => [key, twoFaStore.accounts[key]?.generate() || '']
-	)
-));
+const otps = new WeakMap<HOTP | TOTP, string>();
 
 async function copy(content?: string) {
 	const clipboard = useClipboard();
@@ -89,14 +85,25 @@ function parseSecret(uri: string) {
 	return url.searchParams.get('secret') || '';
 }
 
+function getOTP(account: HOTP | TOTP) {
+	return computed(() => otps.get(account)!);
+}
+
+function refreshOTPs() {
+	Object.keys(twoFaStore.accounts).forEach(key => {
+		otps.set(twoFaStore.accounts[key]!, twoFaStore.accounts[key]!.generate());
+	});
+}
+
 onMounted(() => {
+	// refresh one time 1st
+	refreshOTPs();
+
 	countdownTimer = setInterval(() => {
 		const now = Math.floor(Date.now() / 1000);
 		countdown.value = 30 - (now % 30);
 		if (percent.value === 100) {
-			Object.keys(twoFaStore.accounts).forEach(key => {
-				otps[key] = twoFaStore.accounts[key]!.generate();
-			});
+			refreshOTPs();
 		}
 	}, 1000) as unknown as number;
 });
@@ -202,8 +209,8 @@ onBeforeUnmount(() => {
 					</CardAction>
 				</CardHeader>
 				<CardContent>
-					<InputOTP readonly :maxlength="account.digits" v-model="otps[name]" :key="name"
-						@click="copy(otps[name]!)" :class="{ 'animate-pulse': isCritical }">
+					<InputOTP readonly :maxlength="account.digits" v-model="getOTP(account).value" :key="name"
+						@click="copy(getOTP(account).value)" :class="{ 'animate-pulse': isCritical }">
 						<InputOTPGroup
 							class="gap-2.5 *:data-[slot=input-otp-slot]:rounded-md *:data-[slot=input-otp-slot]:border"
 							:class="{ 'animate-pulse': isCritical }">
