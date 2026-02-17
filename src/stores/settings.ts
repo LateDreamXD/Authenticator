@@ -41,11 +41,23 @@ export const useSettingsStore = defineStore('settings', () => {
 		logger.info('settings initialized');
 	}
 
-	function save() {
-		if(window.ElectronAPI)
-			window.ElectronAPI.saveConfig(ini.stringify(settings.value));
-		else
-			localStorage.setItem('LateDreamAuth:Settings', JSON.stringify(settings.value));
+	async function save() {
+		switch (window.BUILD_INFO.platform) {
+			case 'electron-win32':
+			case 'electron-linux':
+			case 'electron-darwin':
+				ElectronAPI.saveConfig(ini.stringify(settings.value));
+				break;
+			case 'niva-win32':
+				Niva.api.fs.write(
+					[(await Niva.api.process.currentDir()), 'config.ini'].join(await Niva.api.os.sep()),
+					ini.stringify(settings.value)
+				);
+				break;
+			default:
+				localStorage.setItem('LateDreamAuth:Settings', JSON.stringify(settings.value));
+				break;
+		}
 	}
 
 	function update(newSettings: typeof defaultSettings) {
