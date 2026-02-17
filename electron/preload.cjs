@@ -27,7 +27,7 @@ contextBridge.exposeInMainWorld('ElectronAPI', {
 
 	saveOTPAccounts: (otpAccounts, isPortableMode) => ipcRenderer.invoke('save-otp-accounts', otpAccounts, isPortableMode),
 
-	getPlatform: () => `${process.platform}-electron`,
+	getPlatform: () => `electron-${process.platform}`,
 
 	openDevTools: () => ipcRenderer.invoke('open-dev-tools'),
 
