@@ -43,10 +43,6 @@ export default {
 		app.config.globalProperties.$settings = settingsStore;
 
 		(async() => {
-			// @ts-ignore
-			window.BUILD_INFO = BUILD_INFO;
-			if(window.ElectronAPI) window.BUILD_INFO.platform = ElectronAPI.getPlatform();
-			if(window.Niva) window.BUILD_INFO.platform = 'niva-win32';
 			twoFaStore.init();
 			settingsStore.init();
 			if(settingsStore.settings.language && settingsStore.settings.language !== 'system')

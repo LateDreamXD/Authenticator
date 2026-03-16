@@ -9,12 +9,13 @@ import vueDevTools from 'vite-plugin-vue-devtools';
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
 	const shared: import('vite').UserConfig = {
+		clearScreen: false, // prevent vite from clearing rust log
 		base: './',
 		define: {
 			BUILD_INFO: `({
 				commit: null,
 				version: ${JSON.stringify(process.env.npm_package_version)},
-				platform: 'web-any',
+				isClient: ${JSON.stringify(process.env.CLIENT === 'true')},
 				date: ${JSON.stringify(new Date().toISOString())},
 			})`
 		},
@@ -48,6 +49,12 @@ export default defineConfig(({ mode }) => {
 						]
 					}
 				}
+			}
+		},
+		envPrefix: ['VITE_', 'TAURI_ENV_'],
+		server: {
+			watch: {
+				ignored: ['**/src-tauri/**']
 			}
 		}
 	};

@@ -7,10 +7,9 @@ const { allowedPlatforms } = defineProps<{
 	needRestartOrRefresh?: boolean;
 	allowedPlatforms?: string[];
 }>();
-const isElectron = window.BUILD_INFO.platform.includes('electron');
-const isNiva = window.BUILD_INFO.platform.includes('niva');
+const { isClient } = BUILD_INFO;
 const isUnsupportedPlatform = allowedPlatforms?
-	!allowedPlatforms.includes(window.BUILD_INFO.platform.split('-')[0]!): false;
+	!allowedPlatforms.includes(isClient ? 'client' : 'browser'): false;
 </script>
 
 <template>
@@ -22,7 +21,7 @@ const isUnsupportedPlatform = allowedPlatforms?
 				{{ $t('settings.shared.unsupported_platform') }}
 			</small>
 			<small v-else class="text-sm text-[grey]">
-				<span class="text-red-500" v-if="needRestartOrRefresh">{{ $t(isElectron || isNiva ?
+				<span class="text-red-500" v-if="needRestartOrRefresh">{{ $t(isClient ?
 					'settings.shared.effect_after_restart' :
 					'settings.shared.effect_after_refresh') }}</span>
 				{{ description }}

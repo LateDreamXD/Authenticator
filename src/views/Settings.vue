@@ -39,17 +39,9 @@ const settingsStore = useSettingsStore();
 
 const settings = reactive(settingsStore.settings);
 
-const isElectron = window.BUILD_INFO.platform.includes('electron');
-const isNiva = window.BUILD_INFO.platform.includes('niva');
-
+const { isClient } = BUILD_INFO;
 async function chooseBackground() {
-	if(isElectron) {
-		const files = await ElectronAPI.pickUpFiles({filters: [{
-			name: 'Supported Image files',
-			extensions: ['png', 'webp', 'jpg', 'jpeg', 'bmp'],
-		}]});
-		if(files.filePaths?.[0])
-			settings.appearance.background_image = `file://${files.filePaths?.[0].replace(/\\/g, '/')}`;
+	if(isClient) {
 	} else {
 		const { onChange, open } = useFileDialog({
 			accept: 'image/*',
@@ -128,8 +120,8 @@ async function chooseBackground() {
 					</SettingItem>
 					<SettingItem id="portable_mode" :label="$t('settings.portable_mode')"
 						:description="$t('settings.portable_mode.description')"
-						:need-restart-or-refresh="true" :allowed-platforms="['electron', 'niva']">
-						<Switch id="portable_mode" v-model="settings.portable_mode" :disabled="!isElectron && !isNiva" />
+						:need-restart-or-refresh="true" :allowed-platforms="['client']">
+						<Switch id="portable_mode" v-model="settings.portable_mode" :disabled="!isClient" />
 					</SettingItem>
 				</Field>
 				<FieldSeparator />

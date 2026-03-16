@@ -9,10 +9,7 @@ export const useI18nStore = defineStore('i18n', () => {
 
 	async function fetchTranslations() {
 		const url = new URL(location.href);
-		if(import.meta.env.DEV || window.BUILD_INFO.platform.includes('niva'))
-			url.pathname += `locales/${language.value}.json`;
-		else
-			url.pathname = url.pathname.replace('index.html', `locales/${language.value}.json`);
+		url.pathname += `locales/${language.value}.json`;
 		const res = await fetch(url);
 		if(res.status === 404) {
 			logger.warn(`locale file of "${language.value}" does not exist, will use "zh-CN"`);

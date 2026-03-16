@@ -3,6 +3,7 @@
     "Vue.volar",
     "EditorConfig.EditorConfig",
     "bradlc.vscode-tailwindcss",
-    "selemondev.shadcn-vue"
+    "selemondev.shadcn-vue",
+    "rust-lang.rust-analyzer"
   ]
 }

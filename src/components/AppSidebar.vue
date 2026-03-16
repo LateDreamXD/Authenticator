@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import { UserRoundCheck, BookUser, FileCodeCorner, Shield, Settings, Menu } from 'lucide-vue-next';
 import {
 	Sidebar,
@@ -12,8 +13,11 @@ import {
 	SidebarFooter,
 	useSidebar
 } from '@/components/ui/sidebar';
+import { useSettingsStore } from '@/stores/settings';
 
-const { toggleSidebar } = useSidebar();
+const settingsStore = useSettingsStore();
+
+const { toggleSidebar, setOpen, open } = useSidebar();
 
 const items = [
 	{ key: '2fa', icon: UserRoundCheck },
@@ -21,6 +25,16 @@ const items = [
 	{ key: 'passwords', icon: BookUser },
 	{ key: 'recovery_codes', icon: FileCodeCorner },
 ];
+
+const menuToggleHandler = () => {
+	toggleSidebar();
+	settingsStore.settings.sidebar_open = open.value;
+	settingsStore.save();
+}
+
+onMounted(() => {
+	setOpen(settingsStore.settings.sidebar_open);
+});
 </script>
 
 <template>
@@ -31,7 +45,7 @@ const items = [
 				<SidebarGroupContent>
 					<SidebarMenu>
 						<SidebarMenuItem>
-							<SidebarMenuButton as-child @click="toggleSidebar">
+							<SidebarMenuButton as-child @click="menuToggleHandler">
 								<span class="cursor-pointer">
 									<Menu />
 									<span>{{ $t('home.menu') }}</span>

@@ -87,6 +87,7 @@ declare module 'vue' {
     Label: typeof import('./src/components/ui/label/Label.vue')['default']
     Popover: typeof import('./src/components/ui/popover/Popover.vue')['default']
     PopoverAnchor: typeof import('./src/components/ui/popover/PopoverAnchor.vue')['default']
+    PopoverContent: typeof import('./src/components/ui/popover/PopoverContent.vue')['default']
     PopoverTrigger: typeof import('./src/components/ui/popover/PopoverTrigger.vue')['default']
     Progress: typeof import('./src/components/ui/progress/Progress.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

@@ -22,18 +22,16 @@ const contextMenuItems: {
 	{ key: 'settings', icon: Settings },
 ];
 
-const { version, platform, date: build_date } = window.BUILD_INFO;
+const { version, date: build_date, isClient } = window.BUILD_INFO;
 const isDev = import.meta.env.DEV;
-const isElectron = platform.includes('electron');
-const isNiva = platform.includes('niva');
 const isDemoVersion = version.includes('demo');
 const isUnstableVersion = !!version.match(/alpha|beta|dev/);
 
 const openDevTools = () => {
-	if(isElectron)
-		window.ElectronAPI.openDevTools();
-	if(isNiva)
-		Niva.api.webview.openDevtools();
+	// if(isElectron)
+	// 	window.ElectronAPI.openDevTools();
+	// if(isNiva)
+	// 	Niva.api.webview.openDevtools();
 }
 </script>
 
@@ -67,8 +65,8 @@ const openDevTools = () => {
 					<span>{{ $t(item?.label || `contextmenu.${item.key}`, [$t(`title.${$route.name?.toString()}`)]) }}</span>
 				</ContextMenuItem>
 			</template>
-			<ContextMenuSeparator v-if="isElectron || isNiva" />
-			<ContextMenuItem v-if="isElectron || isNiva" @click="openDevTools">
+			<ContextMenuSeparator v-if="isClient" />
+			<ContextMenuItem v-if="isClient" @click="openDevTools">
 				<Toolbox />
 				<span>{{ $t('contextmenu.open_dev_tools') }}</span>
 			</ContextMenuItem>
@@ -79,7 +77,7 @@ const openDevTools = () => {
 		<span v-if="isDemoVersion" v-text="$t('watermark.demo_version_tip')" />
 		<span v-if="isUnstableVersion" v-text="$t('watermark.unstable_version_warning')" />
 		<span v-if="isDev || isUnstableVersion || isDemoVersion">
-			v{{ version }}, build at {{ build_date }} for {{ platform }}
+			v{{ version }}, build at {{ build_date }} for {{ isClient? 'client': 'browser' }}
 		</span>
 	</div>
 </template>

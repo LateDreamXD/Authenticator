@@ -6,5 +6,6 @@
     "background_image_blur": 0
   },
   "language": "system",
-  "portable_mode": false
+  "portable_mode": false,
+  "sidebar_open": true
 }

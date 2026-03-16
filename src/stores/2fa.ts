@@ -42,20 +42,9 @@ export const use2faStore = defineStore('2fa', () => {
 
 	async function init() {
 		let uris: string[] = [];
-		switch (window.BUILD_INFO.platform) {
-			case 'electron-win32':
-			case 'electron-linux':
-			case 'electron-darwin':
-				uris = ElectronAPI?.getOTPAccounts(settings.settings.portable_mode)?.split('\n') || [];
-				break;
-			case 'niva-win32':
-				uris = (await Niva.api.fs.read(
-					[(await Niva.api.os.dirs()).data, 'Data', 'otp-accounts.txt'].join(await Niva.api.os.sep())
-				))?.split('\n') || [];
-				break;
-			default:
-				uris = localStorage.getItem('LateDreamAuth:Accounts')?.split('\n') || [];
-				break;
+		if(BUILD_INFO.isClient) {}
+		else {
+			uris = localStorage.getItem('LateDreamAuth:Accounts')?.split('\n') || [];
 		}
 
 		uris.forEach((uri: string) => {
@@ -67,26 +56,13 @@ export const use2faStore = defineStore('2fa', () => {
 	}
 
 	async function save() {
-		switch (window.BUILD_INFO.platform) {
-			case 'electron-win32':
-			case 'electron-linux':
-			case 'electron-darwin':
-				await ElectronAPI.saveOTPAccounts(
-					Object.keys(accounts.value).map((key) => otpauth.URI.stringify(accounts.value[key]!)).join('\n'),
-					settings.settings.portable_mode
-				);
-				break;
-			case 'niva-win32':
-				await Niva.api.fs.write(
-					[(await Niva.api.os.dirs()).data, 'Data', 'otp-accounts.txt'].join(await Niva.api.os.sep()),
-					Object.keys(accounts.value).map((key) => otpauth.URI.stringify(accounts.value[key]!)).join('\n')
-				);
-				break;
-			default:
-				localStorage.setItem('LateDreamAuth:Accounts',
-					Object.keys(accounts.value).map((key) => otpauth.URI.stringify(accounts.value[key]!)).join('\n')
-				);
-				break;
+		if(BUILD_INFO.isClient) {}
+		else {
+			localStorage.setItem('LateDreamAuth:Accounts',
+				Object.keys(accounts.value).map(
+					(key) => otpauth.URI.stringify(accounts.value[key]!)
+				).join('\n')
+			);
 		}
 	}
 
