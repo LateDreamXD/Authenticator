@@ -1,0 +1,10 @@
+{
+  "name": "authenticator",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wails dev -s",
+    "build": "wails build"
+  },
+  "packageManager": "pnpm@11.9.0"
+}

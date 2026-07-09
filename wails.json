@@ -1,0 +1,19 @@
+{
+  "$schema": "https://wails.io/schemas/config.v2.json",
+  "name": "authenticator",
+  "outputfilename": "latedream-authenticator",
+  "frontend:install": "pnpm install",
+  "frontend:build": "pnpm build",
+  "frontend:dev:watcher": "pnpm dev",
+  "frontend:dev:serverUrl": "auto",
+  "info": {
+    "companyName": "LateDreamXD",
+    "productName": "LateDream Authenticator",
+    "productVersion": "0.1.0.0",
+    "copyright": "Copyright (c) 2026 LateDreamXD"
+  },
+  "author": {
+    "name": "latedream",
+    "email": "xiaozhisans@qq.com"
+  }
+}
