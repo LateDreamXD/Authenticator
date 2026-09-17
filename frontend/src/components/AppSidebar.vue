@@ -38,7 +38,7 @@ onMounted(() => {
 </script>
 
 <template>
-	<Sidebar collapsible="icon" variant="floating">
+	<Sidebar collapsible="icon" variant="sidebar">
 		<SidebarContent class="overflow-x-hidden">
 			<SidebarGroup>
 				<SidebarGroupLabel>{{ $t('title.app') }}</SidebarGroupLabel>

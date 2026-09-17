@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { useSettingsStore } from './stores/settings';
 import { SidebarProvider } from './components/ui/sidebar';
+import AppNavbar from './components/AppNavbar.vue';
 import AppSidebar from './components/AppSidebar.vue';
 import {
 	ContextMenu,
@@ -12,7 +13,8 @@ import {
 } from './components/ui/context-menu';
 import 'vue-sonner/style.css';
 import { Toaster } from '@/components/ui/sonner';
-import { Plus, RefreshCcwIcon, Settings } from '@lucide/vue';
+import { PlusIcon, RefreshCcwIcon, SettingsIcon } from '@lucide/vue';
+
 const contextMenuItems: {
 	key: string;
 	label?: string;
@@ -20,8 +22,8 @@ const contextMenuItems: {
 	route?: string[];
 	action?: Function;
 }[] = [
-	{ key: 'add', label: 'title.add', icon: Plus, route: ['2fa', 'passwords', 'steam_guard', 'recovery_codes'] },
-	{ key: 'settings', icon: Settings },
+	{ key: 'add', label: 'title.add', icon: PlusIcon, route: ['2fa', 'passwords', 'steam_guard', 'recovery_codes'] },
+	{ key: 'settings', icon: SettingsIcon }
 ];
 
 const env = ref<import('@runtime').EnvironmentInfo>();
@@ -51,10 +53,11 @@ onMounted(async () => {
 	<ContextMenu>
 		<ContextMenuTrigger as-child>
 			<SidebarProvider>
+				<AppNavbar />
 				<AppSidebar />
 				<RouterView v-slot="{ Component }">
 					<transition name="app">
-						<component :is="Component" />
+						<component class="mt-10" :is="Component" />
 					</transition>
 				</RouterView>
 				<Toaster />

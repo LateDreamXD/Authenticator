@@ -17,9 +17,11 @@ func main() {
 
 	// Create application with options
 	err := wails.Run(&options.App{
-		Title:  "LateDream Authenticator",
-		Width:  1024,
-		Height: 768,
+		Title:     "LateDream Authenticator",
+		Width:     1024,
+		Height:    768,
+		MinWidth:  1024,
+		MinHeight: 768,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
@@ -31,6 +33,7 @@ func main() {
 			UniqueId:               "4c617465-4472-8561-ad58-442f41757468",
 			OnSecondInstanceLaunch: app.onSecondInstanceLaunch,
 		},
+		Frameless: true,
 	})
 
 	if err != nil {
